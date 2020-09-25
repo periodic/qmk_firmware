@@ -230,33 +230,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //     ),
 };
 
+void _set_rgb(uint8_t red, uint8_t green, uint8_t blue) {
+    rgblight_mode_noeeprom(1);
+    rgblight_setrgb(red, green, blue);
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _DVORAK:
-            rgblight_setrgb(RGB_TURQUOISE);
+            _set_rgb(RGB_TURQUOISE);
             break;
         case _QWERTY:
-            rgblight_setrgb(RGB_RED);
+            _set_rgb(RGB_RED);
             break;
         case _MAC:
             // Corange
-            rgblight_setrgb(0xff, 0x62, 0x72);
+            _set_rgb(0xff, 0x62, 0x72);
             break;
         case _SYMB:
-            rgblight_setrgb(RGB_PURPLE);
+            _set_rgb(RGB_PURPLE);
         case _MOVE:
-            rgblight_setrgb(RGB_GREEN);
+            _set_rgb(RGB_GREEN);
         case _UTIL:
-            rgblight_setrgb(RGB_MAGENTA);
+            _set_rgb(RGB_MAGENTA);
         case _WIN:
         case _MACWIN:
-            rgblight_setrgb(RGB_CYAN);
+            _set_rgb(RGB_CYAN);
         default:
-            rgblight_setrgb(RGB_WHITE);
+            _set_rgb(RGB_WHITE);
             break;
     }
 
     return state;
+}
+
+void keyboard_post_init_user(void) {
+    layer_state_set_user(layer_state);
 }
 
 #ifdef OLED_DRIVER_ENABLE

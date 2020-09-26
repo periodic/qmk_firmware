@@ -15,9 +15,12 @@
  */
 #include QMK_KEYBOARD_H
 
+#define RGB_CORANGE 0xff, 0x62, 0x72
+
 enum layers {
-    _DVORAK = 0,
-    _QWERTY,
+    _QWERTY = 0,
+    _COLEMAK,
+    _DVORAK,
     _MAC,
     _SYMB,
     _MOVE,
@@ -30,23 +33,23 @@ enum layers {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
- * Alpha Layer: DVORAK
+ * Base Layer: QWERTY
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |  Tab   | '  " |  , < |  . > |   P  |   Y  |                              |   f  |   g  |   c  |   r  |   l  |  / ?   |
+ * |  Tab   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |  - _   |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |Ctrl/Esc|   A  |   O  |   E  |   U  |   I  |                              |   d  |   h  |   t  |   n  |   s  |  - _   |
+ * |Ctrl/Esc|   A  |   S  |  D   |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   ;  |   Q  |   J  |   K  |   X  |      | Prev |  | Next | Mac  |   b  |   m  |   w  |   v  |   z  | RShift |
+ * | LShift |   Z  |   X  |   C  |   V  |   B  |      | Prev |  | Next | Mac  |   N  |   M  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        | GUI  | UTIL | MOVE | BS   | Tab  |  | Enter| Space| WIN  | UTIL | AltGr|
  *                        |      |      |      |      | SYMB |  | SYMB |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-    [_DVORAK] = LAYOUT(
-      KC_TAB,               KC_QUOT, KC_COMM, KC_DOT, KC_P,   KC_Y,                                             KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH,
-      MT(MOD_LCTL, KC_ESC), KC_A,    KC_O,    KC_E,   KC_U,   KC_I,                                             KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS,
-      KC_LSFT,              KC_SCLN, KC_Q,    KC_J,   KC_K,   KC_X,  KC_NO, TO(_QWERTY), TO(_QWERTY), TG(_MAC), KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSHIFT,
+    [_QWERTY] = LAYOUT(
+      KC_TAB,              KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                 KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
+      MT(MOD_LCTL, KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                 KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+      KC_LSFT,             KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, TO(_DVORAK), TO(_COLEMAK), TG(_MAC), KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
               KC_LGUI,
               MO(_UTIL),
               MO(_MOVE),
@@ -59,24 +62,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_RALT   // Redundant?
     ),
 /*
- * Base Layer: QWERTY
+ * Alpha Layer: Colemak
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |  - _   |
+ * |        |      |      |  F   |  P   |  G   |                              |  J   |  L   |  U   |  Y   |  ;   |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |   A  |   S  |  D   |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
+ * |        |      |  R   |  S   |  T   |  D   |                              |      |  N   |  E   |  I   |  O   |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |   Z  |   X  |   C  |   V  |   B  |      | Prev |  | Next |      |   N  |   M  | ,  < | . >  | /  ? |        |
+ * |        |      |      |      |      |      |      |      |  |      |      |  K   |      |      |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-    [_QWERTY] = LAYOUT(
-      _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
-      _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, TO(_DVORAK), TO(_DVORAK), _______, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
-                                 _______, _______, _______, _______, _______,     _______,     _______, _______, _______, _______
+    [_COLEMAK] = LAYOUT(
+      _______, _______, _______, KC_F,    KC_P,    KC_G,                                        KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, _______,
+      _______, _______, KC_R,    KC_S,    KC_T,    KC_D,                                        _______, KC_N,    KC_E,    KC_I,    KC_O,    _______,
+      _______, _______, _______, _______, _______, _______, _______, TO(_QWERTY), TO(_DVORAK), _______, KC_K,    _______, _______, _______, _______, _______,
+                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+/*
+ * Alpha Layer: DVORAK
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |  Tab   | '  " |  , < |  . > |   P  |   Y  |                              |   f  |   g  |   c  |   r  |   l  |  / ?   |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |Ctrl/Esc|   A  |   O  |   E  |   U  |   I  |                              |   d  |   h  |   t  |   n  |   s  |  - _   |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * | LShift |   ;  |   Q  |   J  |   K  |   X  |      | Prev |  | Next | Mac  |   b  |   m  |   w  |   v  |   z  | RShift |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_DVORAK] = LAYOUT(
+      _______, KC_QUOT, KC_COMM, KC_DOT,   KC_P,   KC_Y,                                                  KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH,
+      _______, KC_A,    KC_O,    KC_E,     KC_U,   KC_I,                                                  KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS,
+      _______, KC_SCLN, KC_Q,    KC_J,     KC_K,   KC_X,    _______, TO(_COLEMAK), TO(_QWERTY), TG(_MAC), KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    _______,
+                                 _______, _______, _______, _______, _______,      _______,     _______,  _______, _______, _______
     ),
 /*
  * Symbol Layer: Numbers & Symbols
@@ -237,25 +260,31 @@ void _set_rgb(uint8_t red, uint8_t green, uint8_t blue) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
+        case _QWERTY:
+            _set_rgb(RGB_BLUE);
+            break;
+        case _COLEMAK:
+            _set_rgb(RGB_CYAN);
+            break;
         case _DVORAK:
             _set_rgb(RGB_TURQUOISE);
             break;
-        case _QWERTY:
-            _set_rgb(RGB_RED);
-            break;
         case _MAC:
-            // Corange
-            _set_rgb(0xff, 0x62, 0x72);
+            _set_rgb(RGB_CORANGE);
             break;
         case _SYMB:
             _set_rgb(RGB_PURPLE);
+            break;
         case _MOVE:
             _set_rgb(RGB_GREEN);
+            break;
         case _UTIL:
             _set_rgb(RGB_MAGENTA);
+            break;
         case _WIN:
         case _MACWIN:
-            _set_rgb(RGB_CYAN);
+            _set_rgb(RGB_SPRINGGREEN);
+            break;
         default:
             _set_rgb(RGB_WHITE);
             break;
@@ -382,19 +411,26 @@ static void render_status(void) {
     // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
     switch (get_highest_layer(layer_state)) {
-        case _DVORAK:
-            oled_write_P(PSTR("Dvorak\n"), false);
-            break;
         case _QWERTY:
             oled_write_P(PSTR("Qwerty\n"), false);
             break;
+        case _COLEMAK:
+            oled_write_P(PSTR("Colemak\n"), false);
+            break;
+        case _DVORAK:
+            oled_write_P(PSTR("Dvorak\n"), false);
+            break;
         case _MAC:
-            if (IS_LAYER_ON(_DVORAK)) {
-                oled_write_P(PSTR("Dvorak/Mac\n"), false);
+            if (IS_LAYER_ON(_QWERTY)) {
+                oled_write_P(PSTR("Qwerty + Mac\n"), false);
                 break;
             }
-            if (IS_LAYER_ON(_QWERTY)) {
-                oled_write_P(PSTR("Qwerty/Mac\n"), false);
+            if (IS_LAYER_ON(_COLEMAK)) {
+                oled_write_P(PSTR("Colemak + Mac\n"), false);
+                break;
+            }
+            if (IS_LAYER_ON(_DVORAK)) {
+                oled_write_P(PSTR("Dvorak + Mac\n"), false);
                 break;
             }
             oled_write_P(PSTR("\?\?\?/Mac\n"), false);

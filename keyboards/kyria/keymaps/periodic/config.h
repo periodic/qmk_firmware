@@ -26,7 +26,10 @@
 
 #ifdef RGBLIGHT_ENABLE
   #define RGBLIGHT_SPLIT
-  // #define RGBLIGHT_ANIMATIONS // Disable to save ~3.5k mem
+  // RGB lights take a lot of power and the Elite C is limited to 500mw.
+  #define RGBLIGHT_LIMIT_VAL 192
+  // Disable to save ~3.5k mem
+  // #define RGBLIGHT_ANIMATIONS
   #define RGBLIGHT_HUE_STEP 8
   #define RGBLIGHT_SAT_STEP 8
   #define RGBLIGHT_VAL_STEP 8

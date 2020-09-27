@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include <stdio.h>
 
 #define RGB_CORANGE 0xff, 0x62, 0x72
 
@@ -172,7 +173,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |        |      | SAD  | HUD  | VAD  | RMOD |      |      |  |      |      |      |      |      |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      | TRNS |      |      |      |  |      |      |      | TRNS |      |
+ *                        | CAPS | TRNS |      |      |      |  |      |      |      | TRNS |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
@@ -180,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                       KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
       _______, RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI, RGB_MOD,                                     _______, _______, _______, _______, _______, KC_F12,
       _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                                 _______, KC_TRNS, _______, _______, _______, _______, _______, _______, KC_TRNS, _______
+                                 KC_CAPS, KC_TRNS, _______, _______, _______, _______, _______, _______, KC_TRNS, _______
     ),
  /*
   * Mac Layer: Update keys for mac
@@ -253,40 +254,60 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //     ),
 };
 
+void _set_hsv(uint8_t h, uint8_t s, uint8_t v) {
+    rgblight_enable_noeeprom();
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_noeeprom(h, s, v);
+}
+
+void _disable_rgb(void) {
+    rgblight_disable_noeeprom();
+}
+
+/*
 void _set_rgb(uint8_t red, uint8_t green, uint8_t blue) {
     rgblight_mode_noeeprom(1);
     rgblight_setrgb(red, green, blue);
+    rgblight_set();
 }
+
+const uint8_t RGBLED_GRADIENT_RANGES[] PROGMEM = {40, 40, 40, 40, 40};
+void _set_gradient(void) {
+    rgblight_enable_noeeprom();
+    rgblight_sethsv_noeeprom(HSV_CORAL);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT);
+}
+*/
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _QWERTY:
-            _set_rgb(RGB_BLUE);
+            _disable_rgb();
             break;
         case _COLEMAK:
-            _set_rgb(RGB_CYAN);
+            _set_hsv(HSV_CYAN);
             break;
         case _DVORAK:
-            _set_rgb(RGB_TURQUOISE);
+            _set_hsv(HSV_TURQUOISE);
             break;
         case _MAC:
-            _set_rgb(RGB_CORANGE);
+            _set_hsv(HSV_CORAL);
             break;
         case _SYMB:
-            _set_rgb(RGB_PURPLE);
+            _set_hsv(HSV_PURPLE);
             break;
         case _MOVE:
-            _set_rgb(RGB_GREEN);
+            _set_hsv(HSV_GREEN);
             break;
         case _UTIL:
-            _set_rgb(RGB_MAGENTA);
+            _set_hsv(HSV_MAGENTA);
             break;
         case _WIN:
         case _MACWIN:
-            _set_rgb(RGB_SPRINGGREEN);
+            _set_hsv(HSV_SPRINGGREEN);
             break;
         default:
-            _set_rgb(RGB_WHITE);
+            _set_hsv(HSV_WHITE);
             break;
     }
 
@@ -461,6 +482,12 @@ static void render_status(void) {
     oled_write_P(IS_LED_ON(led_usb_state, USB_LED_SCROLL_LOCK) ? PSTR("SCRLCK ") : PSTR("       "), false);
 }
 
+void render_status_slave(void) {
+    static char wpm_str[10];
+    sprintf(wpm_str, "WPM: %03d", get_current_wpm());
+    oled_write_ln(wpm_str, false);
+}
+
 void oled_task_user(void) {
     if (is_keyboard_master()) {
         render_status(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
@@ -468,8 +495,8 @@ void oled_task_user(void) {
         if (IS_LAYER_ON(_MAC) || IS_LAYER_ON(_MACWIN)) {
             render_asana_logo();
         } else {
-            render_asana_logo();
-            //render_kyria_logo();
+            // render_kyria_logo();
+            render_status_slave();
         }
     }
 }

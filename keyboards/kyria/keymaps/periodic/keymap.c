@@ -482,22 +482,15 @@ static void render_status(void) {
     oled_write_P(IS_LED_ON(led_usb_state, USB_LED_SCROLL_LOCK) ? PSTR("SCRLCK ") : PSTR("       "), false);
 }
 
-void render_status_slave(void) {
-    static char wpm_str[10];
-    sprintf(wpm_str, "WPM: %03d", get_current_wpm());
-    oled_write_ln(wpm_str, false);
-}
-
 void oled_task_user(void) {
     if (is_keyboard_master()) {
         render_status(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
+        // TODO
         if (IS_LAYER_ON(_MAC) || IS_LAYER_ON(_MACWIN)) {
             render_asana_logo();
         } else {
-            // render_kyria_logo();
-            render_status_slave();
-        }
+            render_kyria_logo();
     }
 }
 #endif

@@ -439,6 +439,12 @@ ifeq ($(strip $(SPLIT_KEYBOARD)), yes)
             QUANTUM_LIB_SRC += serial_$(strip $(SERIAL_DRIVER)).c
         endif
     endif
+
+	ifeq ($(strip $(SPLIT_USER_BUFFER_ENABLE)), yes)
+		OPT_DEFS += -DSPLIT_USER_BUFFER_ENABLE
+		SRC += $(QUANTUM_DIR)/split_common/user_buffer.c
+	endif
+
     COMMON_VPATH += $(QUANTUM_PATH)/split_common
 endif
 

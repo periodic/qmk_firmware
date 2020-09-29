@@ -24,6 +24,11 @@
   #define OLED_DISPLAY_128X64
 #endif
 
+#ifdef SPLIT_USER_BUFFER_ENABLE
+  #define SPLIT_USER_BUFFER_SIZE 1
+#endif
+
+
 #ifdef RGBLIGHT_ENABLE
   #define RGBLIGHT_SPLIT
   // RGB lights take a lot of power and the Elite C is limited to 500mw.

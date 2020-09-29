@@ -15,8 +15,14 @@
  */
 #include QMK_KEYBOARD_H
 #include <stdio.h>
+#include <string.h>
+#include "user_buffer.h"
 
 #define RGB_CORANGE 0xff, 0x62, 0x72
+
+typedef struct _UserBuffer {
+    uint8_t layer_state;
+} UserBuffer;
 
 enum layers {
     _QWERTY = 0,
@@ -280,6 +286,9 @@ void _set_gradient(void) {
 */
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    if (is_keyboard_master()) {
+        set_user_buffer(&state);
+    }
     switch (get_highest_layer(state)) {
         case _QWERTY:
             _disable_rgb();
@@ -323,7 +332,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 	return OLED_ROTATION_180;
 }
 
-/*
 static void render_kyria_logo(void) {
     static const char PROGMEM kyria_logo[] = {
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,128,192,224,240,112,120, 56, 60, 28, 30, 14, 14, 14,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7, 14, 14, 14, 30, 28, 60, 56,120,112,240,224,192,128,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -337,7 +345,6 @@ static void render_kyria_logo(void) {
     };
     oled_write_raw_P(kyria_logo, sizeof(kyria_logo));
 }
-*/
 
 static void render_asana_logo(void) {
     static const char PROGMEM asana_logo[] = {
@@ -486,11 +493,15 @@ void oled_task_user(void) {
     if (is_keyboard_master()) {
         render_status(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
+        UserBuffer user_buffer = {};
+        memcpy(&user_buffer, get_user_buffer(), SPLIT_USER_BUFFER_SIZE);
+
         // TODO
-        if (IS_LAYER_ON(_MAC) || IS_LAYER_ON(_MACWIN)) {
+        if (layer_state_cmp(user_buffer.layer_state, _MAC)) {
             render_asana_logo();
         } else {
             render_kyria_logo();
+        }
     }
 }
 #endif

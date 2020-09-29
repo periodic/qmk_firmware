@@ -21,6 +21,10 @@ static pin_t encoders_pad[] = ENCODERS_PAD_A;
 #    define NUMBER_OF_ENCODERS (sizeof(encoders_pad) / sizeof(pin_t))
 #endif
 
+#ifdef SPLIT_USER_BUFFER_ENABLE
+#    include "user_buffer.h"
+#endif
+
 #if defined(USE_I2C)
 
 #    include "i2c_master.h"
@@ -145,6 +149,9 @@ typedef struct _Serial_m2s_buffer_t {
 #    ifdef WPM_ENABLE
     uint8_t current_wpm;
 #    endif
+#    ifdef SPLIT_USER_BUFFER_ENABLE
+    uint8_t user_buffer[SPLIT_USER_BUFFER_SIZE];
+#    endif
 } Serial_m2s_buffer_t;
 
 #    if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHT_SPLIT)
@@ -251,6 +258,11 @@ bool transport_master(matrix_row_t matrix[]) {
     // Write wpm to slave
     serial_m2s_buffer.current_wpm = get_current_wpm();
 #    endif
+
+#    ifdef SPLIT_USER_BUFFER_ENABLE
+    memcpy((void *)&serial_m2s_buffer.user_buffer, get_user_buffer(), SPLIT_USER_BUFFER_SIZE);
+#    endif
+
     return true;
 }
 
@@ -271,6 +283,11 @@ void transport_slave(matrix_row_t matrix[]) {
 #    ifdef WPM_ENABLE
     set_current_wpm(serial_m2s_buffer.current_wpm);
 #    endif
+
+#   ifdef SPLIT_USER_BUFFER_ENABLE
+    set_user_buffer((const void *)&serial_m2s_buffer.user_buffer);
+#   endif
+
 }
 
 #endif

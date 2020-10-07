@@ -3,3 +3,5 @@ ENCODER_ENABLE = no        # Enables the use of one or more encoders
 RGBLIGHT_ENABLE = yes      # Enable keyboard RGB underglow
 WPM_ENABLE = yes
 SPLIT_USER_BUFFER_ENABLE = yes
+
+SRC += oled.c

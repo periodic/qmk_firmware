@@ -31,8 +31,8 @@ typedef struct _UserBuffer {
 } UserBuffer;
 
 enum layers {
-    _QWERTY = 0,
-    _COLEMAK,
+    _COLEMAK = 0,
+    _QWERTY,
     _MAC,
     _SYMB,
     _MOVE,
@@ -56,10 +56,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      | SYMB |  | SYMB |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-    [_QWERTY] = LAYOUT(
-      KC_TAB,              KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                 KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
-      MT(MOD_LCTL, KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                 KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-      KC_LSFT,             KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, TO(_COLEMAK), TO(_COLEMAK), TG(_MAC), KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+    [_COLEMAK] = LAYOUT(
+      KC_TAB,               KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                                             KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_MINS,
+      MT(MOD_LCTL, KC_ESC), KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                                             KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
+      KC_LSFT,              KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, _______, TO(_QWERTY), TG(_MAC), KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
               KC_LGUI,
               MO(_UTIL),
               MO(_MOVE),
@@ -85,11 +85,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-    [_COLEMAK] = LAYOUT(
-      _______, _______, _______, KC_F,    KC_P,    KC_G,                                        KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, _______,
-      _______, _______, KC_R,    KC_S,    KC_T,    KC_D,                                        _______, KC_N,    KC_E,    KC_I,    KC_O,    _______,
-      _______, _______, _______, _______, _______, _______, _______, TO(_QWERTY), TO(_QWERTY), _______, KC_K,    _______, _______, _______, _______, _______,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    [_QWERTY] = LAYOUT(
+      _______, _______, _______, KC_E,    KC_R,    KC_T,                                             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
+      _______, _______, KC_S,    KC_D,    KC_F,    KC_G,                                             _______, KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
+      _______, _______, _______, _______, _______, _______, _______, _______, TO(_COLEMAK), _______, KC_N,    _______, _______, _______, _______, _______,
+                                 _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______
     ),
 /*
  * Symbol Layer: Numbers & Symbols
@@ -101,15 +101,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |        |  .   |  7   |  8   |  9   |  =   |      |      |  |      |      |   ~  |  [   |  ]   |  .   |  /   |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      | TRNS |      |  |      | TRNS |      |      |      |
+ *                        |      |      |      | Del  | TRNS |  | TRNS |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_SYMB] = LAYOUT(
-      _______, KC_PAST, KC_1,    KC_2,    KC_3,    KC_PPLS,                                     KC_GRV,  KC_LCBR, KC_RCBR, KC_PIPE, KC_BSLS, _______,
-      _______, KC_PMNS, KC_4,    KC_5,    KC_6,    KC_0   ,                                     _______, KC_LPRN, KC_RPRN, KC_ASTR, KC_COLN, _______,
-      _______, KC_PDOT, KC_7,    KC_8,    KC_9,    KC_PEQL, _______, _______, _______, _______, KC_TILD, KC_LBRC, KC_RBRC, KC_DOT,  KC_SLSH, _______,
-                                 _______, _______, _______, KC_TRNS, _______, _______, KC_TRNS, _______, _______, _______
+      _______, KC_ASTR, KC_1,    KC_2,    KC_3,    KC_PLUS,                                     KC_GRV,  KC_LCBR, KC_RCBR, KC_PIPE, KC_BSLS, _______,
+      _______, KC_MINS, KC_4,    KC_5,    KC_6,    KC_0   ,                                     _______, KC_LPRN, KC_RPRN, KC_ASTR, KC_COLN, _______,
+      _______, KC_DOT,  KC_7,    KC_8,    KC_9,    KC_EQL,  _______, _______, _______, _______, KC_TILD, KC_LBRC, KC_RBRC, KC_DOT,  KC_SLSH, _______,
+                                 _______, _______, _______, KC_DEL,  KC_TRNS, KC_TRNS, _______, _______, _______, _______
     ),
 /*
  * Movement Layer: media, navigation
@@ -121,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |        |      | Mute | VolDn| VolUp|      |      |      |  |      |      | MLeft| Mdown| MUp  |MRight|      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      | TRNS |  | TRNS |      |      |      |      |
+ *                        |      |      | TRNS |      |      |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
@@ -129,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,                                     KC_HOME, KC_PGDN, KC_PGUP, KC_END,    KC_0,    _______,
       _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
       _______, _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
-                                 _______, _______, _______, _______, KC_TRNS, KC_TRNS, _______, _______, _______, _______
+                                 _______, _______, KC_TRNS, _______, _______, _______, _______, _______, _______, _______
     ),
  /*
   * WIN Layer: Window functions
@@ -190,16 +190,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______,              _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
        MT(MOD_LGUI, KC_ESC), _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
        _______,              _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-              MOD_LCTL,
-              _______,
-              _______,
-              _______,
-              _______,
-              _______,
-              _______,
-              MO(_MACWIN),
-              _______,
-              _______
+                                      KC_LCTL, _______, _______, _______, _______, _______, _______, MO(_MACWIN), _______, _______
      ),
  /*
   * Mac Window Layer:
@@ -259,10 +250,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     switch (get_highest_layer(state)) {
         case _QWERTY:
-            _disable_rgb();
+            _set_hsv(HSV_CYAN);
             break;
         case _COLEMAK:
-            _set_hsv(HSV_CYAN);
+            _disable_rgb();
             break;
         case _MAC:
             _set_hsv(HSV_CORAL);
@@ -364,4 +355,5 @@ void oled_task_user(void) {
         }
     }
 }
+
 #endif

@@ -95,9 +95,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Symbol Layer: Numbers & Symbols
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |  *   |  1   |  2   |  3   |  +   |                              |   `  |  {   |  }   |  |   |  \   |        |
+ * |        |  *   |  1   |  2   |  3   |  +   |                              |   `  |  {   |  }   |  |   |  :   |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  -   |  4   |  5   |  6   |  0   |                              |      |  (   |  )   |  *   |  :   |        |
+ * |        |  -   |  4   |  5   |  6   |  0   |                              |   %  |  (   |  )   |  &   |  \   |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |        |  .   |  7   |  8   |  9   |  =   |      |      |  |      |      |   ~  |  [   |  ]   |  .   |  /   |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
@@ -106,8 +106,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_SYMB] = LAYOUT(
-      _______, KC_ASTR, KC_1,    KC_2,    KC_3,    KC_PLUS,                                     KC_GRV,  KC_LCBR, KC_RCBR, KC_PIPE, KC_BSLS, _______,
-      _______, KC_MINS, KC_4,    KC_5,    KC_6,    KC_0   ,                                     _______, KC_LPRN, KC_RPRN, KC_ASTR, KC_COLN, _______,
+      _______, KC_ASTR, KC_1,    KC_2,    KC_3,    KC_PLUS,                                     KC_GRV,  KC_LCBR, KC_RCBR, KC_PIPE, KC_COLN, _______,
+      _______, KC_MINS, KC_4,    KC_5,    KC_6,    KC_0   ,                                     KC_PERC, KC_LPRN, KC_RPRN, KC_AMPR, KC_BSLS, _______,
       _______, KC_DOT,  KC_7,    KC_8,    KC_9,    KC_EQL,  _______, _______, _______, _______, KC_TILD, KC_LBRC, KC_RBRC, KC_DOT,  KC_SLSH, _______,
                                  _______, _______, _______, _______, KC_TRNS, KC_TRNS, _______, _______, _______, _______
     ),
@@ -147,8 +147,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   *                        `----------------------------------'  `----------------------------------'
   */
      [_WIN] = LAYOUT(
-       _______, G(KC_Q), G(KC_W), G(KC_E), G(KC_R), G(KC_T),                                     G(KC_6), G(KC_7), G(KC_8), G(KC_9), _______, _______,
-       _______, G(KC_A), G(KC_S), G(KC_D), G(KC_F), G(KC_SPC),                                   G(KC_H), G(KC_J), G(KC_K), G(KC_L), _______, _______,
+       _______, G(KC_Q), G(KC_W), G(KC_F), G(KC_P), G(KC_G),                                     G(KC_6), G(KC_7), G(KC_8), G(KC_9), _______, _______,
+       _______, G(KC_A), G(KC_R), G(KC_S), G(KC_T), G(KC_D),                                     G(KC_H), G(KC_J), G(KC_K), G(KC_L), _______, _______,
        _______, _______, _______, G(KC_C), G(KC_V), G(KC_B), _______, _______, _______, _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), _______,
                                   _______, _______, _______, _______, _______, _______, _______, KC_TRNS, _______, _______
      ),
@@ -249,14 +249,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         set_user_buffer(&state);
     }
     switch (get_highest_layer(state)) {
-        case _QWERTY:
-            _set_hsv(HSV_CYAN);
-            break;
+        // Base layers have no color.
         case _COLEMAK:
-            _disable_rgb();
-            break;
+        case _QWERTY:
         case _MAC:
-            _set_hsv(HSV_CORAL);
+            _disable_rgb();
             break;
         case _SYMB:
             _set_hsv(HSV_PURPLE);

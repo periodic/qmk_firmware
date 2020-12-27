@@ -38,7 +38,9 @@ enum layers {
     _MOVE,
     _UTIL,
     _WIN,
-    _MACWIN
+    _MACWIN,
+    _ARPG,
+    _FPS,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -50,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |Ctrl/Esc|   A  |   r  |   s  |   t  |   D  |                              |   h  |   n  |   e  |   i  |   o  |  ' "   |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |      | Prev |  | Next | Mac  |   k  |   m  | ,  < | . >  | /  ? | RShift |
+ * | LShift |   Z  |   X  |   C  |   V  |   B  |      |      |  | Next | Mac  |   k  |   m  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        | GUI  | UTIL | MOVE | BS   | Tab  |  | Enter| Space| WIN  | UTIL | AltGr|
  *                        |      |      |      |      | SYMB |  | SYMB |      |      |      |      |
@@ -69,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_SPC,
               MO(_WIN),
               MO(_UTIL),  // Redundant?
-              KC_RALT   // Redundant?
+              KC_RALT
     ),
 /*
  * Alpha Layer: Qwerty fallback
@@ -79,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  a   |  s   |  d   |  f   |  g   |                              |  h   |  j   |  k   |  l   |  ;   |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |  z   |  x   |  c   |  v   |  b   |      |      |  |      |      |  n   |  m   |      |      |      |        |
+ * |        |  z   |  x   |  c   |  v   |  b   |      |      |  | Next |      |  n   |  m   |      |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
@@ -88,8 +90,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
       _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
       _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                          KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
-      _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, _______, _______, TO(_COLEMAK), _______, KC_N,    KC_M,    _______, _______, _______, _______,
-                                 _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______
+      _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, _______, TO(_ARPG), _______, KC_N,    KC_M,    _______, _______, _______, _______,
+                                 _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______
     ),
 /*
  * Symbol Layer: Numbers & Symbols
@@ -149,7 +151,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      [_WIN] = LAYOUT(
        _______, G(KC_Q), G(KC_W), G(KC_F), G(KC_P), G(KC_G),                                     G(KC_6), G(KC_7), G(KC_8), G(KC_9), _______, _______,
        _______, G(KC_A), G(KC_R), G(KC_S), G(KC_T), G(KC_D),                                     G(KC_H), G(KC_J), G(KC_K), G(KC_L), _______, _______,
-       _______, _______, _______, G(KC_C), G(KC_V), G(KC_B), _______, _______, _______, _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), _______,
+       _______, G(KC_Z), G(KC_X), G(KC_C), G(KC_V), G(KC_B), _______, _______, _______, _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), _______,
                                   _______, _______, _______, _______, _______, _______, _______, KC_TRNS, _______, _______
      ),
 /*
@@ -198,7 +200,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * ,-------------------------------------------.                              ,-------------------------------------------.
   * |  Apps  | Sleep|      |      |      |      |                              | ws 6 | ws 7 | ws 8 | ws 9 |      |        |
   * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
-  * |        |      | ScSh |Launch| Full |      |                              | WLeft| WDown| WUp  |WRight|      |        |
+  * |        |      |      | ScSh | Full |Launch|                              | WLeft| WDown| WUp  |WRight|      |        |
   * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
   * |        |      |      |      |      |      |      |      |  |      |      | ws 1 | ws 2 | ws 3 | ws 4 | ws 5 |        |
   * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
@@ -208,10 +210,50 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
      [_MACWIN] = LAYOUT(
        G(KC_TAB), A(KC_EJCT), _______, _______, _______,   _______,                                     LCA(KC_6), LCA(KC_7), LCA(KC_8), LCA(KC_9), _______, _______,
-       _______,   _______,    MC_SS,   MC_LNCH, MEH(KC_F), _______,                                     LCA(KC_H), LCA(KC_J), LCA(KC_K), LCA(KC_L), _______, _______,
+       _______,   _______,    _______, MC_SS,  MEH(KC_F),  MC_LNCH,                                     LCA(KC_H), LCA(KC_J), LCA(KC_K), LCA(KC_L), _______, _______,
        _______,   _______,    _______, _______, _______,   _______, _______, _______, _______, _______, LCA(KC_1), LCA(KC_2), LCA(KC_3), LCA(KC_4), LCA(KC_5), _______,
                                        _______, _______,   _______, MC_SWAP, MC_LYOT, _______, _______, KC_TRNS, _______, _______
      ),
+/*
+ * ARPG - Action RPGs
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |  Esc  |  8   |  7   |  6   |  5   |  r   |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |  Shift |  4   |  3   |  2   |  1   |  e   |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |  Ctrl  |  -   |  0   |  9   |  8   |  y   |  w   |      |  | Next |      |      |      |      |      |      |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |  alt |  l   |  s   |  c   | Tab  |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_ARPG] = LAYOUT(
+      KC_ESC,   KC_8,    KC_7,    KC_6,    KC_5,    KC_R,                                        _______, _______, _______, _______, _______, _______,
+      MOD_LSFT, KC_4,    KC_3,    KC_2,    KC_1,    KC_E,                                        _______, _______, _______, _______, _______, _______,
+      MOD_LCTL, KC_MINS, KC_0,    KC_9,    KC_8,    KC_Y,    KC_X,    _______, TO(_FPS), _______, _______, _______, _______, _______, _______, _______,
+                                  MOD_LALT, KC_L,   KC_S,    KC_C,    KC_TAB,    _______, _______, _______, _______, _______
+    ),
+/*
+ * FPS - First-Person Shooters
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |  Tab   |  T   |  Q   |  W   |  E   |  R   |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |Esc/Ctrl|  G   |  A   |  S   |  D   |  F   |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * | Shift  |  B   |  Z   |  X   |  C   |  V   |      |      |  | Next |      |      |      |      |      |      |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      | Tab  | Space| Ctrl |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_FPS] = LAYOUT(
+      _______,  KC_T,    KC_Q,    KC_W,    KC_E,    KC_R,                                        _______, _______, _______, _______, _______, _______,
+      _______, KC_G,    KC_A,    KC_S,    KC_D,    KC_F,                                        _______, _______, _______, _______, _______, _______,
+      _______, KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,    _______, _______, TO(_COLEMAK), _______, _______, _______, _______, _______, _______, _______,
+                                 _______, _______, KC_TAB,  KC_SPC,  MOD_LCTL, _______, _______, _______, _______, _______
+    ),
 // /*
 //  * Layer template
 //  *
@@ -268,6 +310,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _MACWIN:
             _set_hsv(HSV_SPRINGGREEN);
             break;
+        case _ARPG:
+            _set_hsv(HSV_RED);
+            break;
+        case _FPS:
+            _set_hsv(HSV_ORANGE);
+            break;
         default:
             _set_hsv(HSV_WHITE);
             break;
@@ -287,10 +335,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 static void render_status(void) {
-    // QMK Logo and version information
-    render_qmk_logo();
-    oled_write_P(PSTR("Kyria rev1.0\n\n"), false);
-
     // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
     switch (get_highest_layer(layer_state)) {
@@ -305,11 +349,7 @@ static void render_status(void) {
                 oled_write_P(PSTR("Qwerty + Mac\n"), false);
                 break;
             }
-            if (IS_LAYER_ON(_COLEMAK)) {
-                oled_write_P(PSTR("Colemak + Mac\n"), false);
-                break;
-            }
-            oled_write_P(PSTR("\?\?\?/Mac\n"), false);
+            oled_write_P(PSTR("Colemak + Mac\n"), false);
             break;
         case _SYMB:
             oled_write_P(PSTR("Symbols\n"), false);
@@ -326,30 +366,29 @@ static void render_status(void) {
         case _MACWIN:
             oled_write_P(PSTR("Mac GUI\n"), false);
             break;
+        case _ARPG:
+            oled_write_P(PSTR("Action RPG\n"), false);
+            break;
+        case _FPS:
+            oled_write_P(PSTR("FPS\n"), false);
+            break;
         default:
             oled_write_P(PSTR("Undefined\n"), false);
     }
 
     // Host Keyboard LED Status
     uint8_t led_usb_state = host_keyboard_leds();
-    oled_write_P(IS_LED_ON(led_usb_state, USB_LED_NUM_LOCK) ? PSTR("NUMLCK ") : PSTR("       "), false);
-    oled_write_P(IS_LED_ON(led_usb_state, USB_LED_CAPS_LOCK) ? PSTR("CAPLCK ") : PSTR("       "), false);
-    oled_write_P(IS_LED_ON(led_usb_state, USB_LED_SCROLL_LOCK) ? PSTR("SCRLCK ") : PSTR("       "), false);
+    oled_write_P(IS_LED_ON(led_usb_state, USB_LED_NUM_LOCK) ? PSTR("NUM ") : PSTR("    "), false);
+    oled_write_P(IS_LED_ON(led_usb_state, USB_LED_CAPS_LOCK) ? PSTR("CAP ") : PSTR("    "), false);
+    oled_write_P(IS_LED_ON(led_usb_state, USB_LED_SCROLL_LOCK) ? PSTR("SCR ") : PSTR("    "), false);
 }
 
 void oled_task_user(void) {
     if (is_keyboard_master()) {
         render_status(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
-        UserBuffer user_buffer = {};
-        memcpy(&user_buffer, get_user_buffer(), SPLIT_USER_BUFFER_SIZE);
-
-        // TODO
-        if (layer_state_cmp(user_buffer.layer_state, _MAC)) {
-            render_asana_logo();
-        } else {
-            render_kyria_logo();
-        }
+        oled_off();
+        // render_kyria_logo();
     }
 }
 

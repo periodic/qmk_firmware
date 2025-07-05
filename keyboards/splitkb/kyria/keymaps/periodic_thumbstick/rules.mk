@@ -2,9 +2,9 @@ CONSOLE_ENABLE     = yes  # Console for debug
 ENCODER_ENABLE     = no  # ENables the use of one or more encoders
 RGBLIGHT_ENABLE    = no  # Enable keyboard RGB underglow
 MOUSEKEY_ENABLE    = no   # Mouse keys
-OLED_ENABLE        = no
+OLED_ENABLE        = yes
 # OLED_DRIVER = SSD1306  # Enables the use of OLED displays
-THUMBSTICK_ENABLE  = no  # Enables analog thumbstick code
+THUMBSTICK_ENABLE  = no # Enables analog thumbstick code
 
 ifeq ($(strip $(ENCODER_ENABLE)), yes)
   SRC += encoder_utils.c

@@ -251,10 +251,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_FPS] = LAYOUT(
-      KC_T,  KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,                                      _______, _______, _______, _______, _______, _______,
-      KC_G,  KC_LCTL,   KC_A,    KC_S,    KC_D,    KC_F,                                      _______, _______, _______, _______, _______, _______,
-      KC_B,  KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V, G_OFF,    _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                                 KC_ESC, MO(_UTIL),KC_M, KC_SPC, MO(_SYMB), _______, _______, _______, _______, _______
+      KC_T              ,  KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,                                      _______, _______, _______, _______, _______, _______,
+      MT(MOD_LALT, KC_G),  KC_LCTL,   KC_A,    KC_S,    KC_D,    KC_F,                                      _______, _______, _______, _______, _______, _______,
+      KC_B              ,  KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V, G_OFF,    _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                                      KC_ESC, MO(_UTIL),KC_M,  KC_SPC, MO(_SYMB), _______, _______, _______, _______, _______
     ),
 /*
  * FPS 2 - First-Person Shooters with thumbstick

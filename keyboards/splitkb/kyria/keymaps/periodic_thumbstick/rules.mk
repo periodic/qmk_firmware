@@ -4,7 +4,7 @@ RGBLIGHT_ENABLE    = no  # Enable keyboard RGB underglow
 MOUSEKEY_ENABLE    = no   # Mouse keys
 OLED_ENABLE        = yes
 # OLED_DRIVER = SSD1306  # Enables the use of OLED displays
-THUMBSTICK_ENABLE  = no # Enables analog thumbstick code
+THUMBSTICK_ENABLE  = yes # Enables analog thumbstick code
 
 ifeq ($(strip $(ENCODER_ENABLE)), yes)
   SRC += encoder_utils.c
